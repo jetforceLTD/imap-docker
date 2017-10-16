@@ -1,0 +1,5 @@
+FI=/etc/rsyslog.conf
+echo '$ModLoad immark.so'    > $FI
+echo '$ModLoad imuxsock.so' >> $FI
+echo '*.* @syslog:514'      >> $FI
+

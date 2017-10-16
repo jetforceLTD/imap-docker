@@ -1,0 +1,7 @@
+[program:rsyslog]
+command=/usr/sbin/rsyslogd -n 
+stdout_logfile=/dev/stdout
+stdout_logfile_maxbytes=0
+stderr_logfile=/dev/stderr
+stderr_logfile_maxbytes=0
+

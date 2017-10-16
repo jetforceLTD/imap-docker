@@ -1,0 +1,103 @@
+version: '2'
+
+services:
+  mysql:
+    image: mysql:5.7
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/Berlin
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_DATABASE=${IMAP_DB_NAME}
+      - MYSQL_USER=${IMAP_DB_USER}
+      - MYSQL_PASSWORD=${IMAP_DB_PASS}
+    expose:
+      - 3306
+    volumes:
+      - ${GLOBAL_DIR_SERV}/imap/persistent/mysql:/var/lib/mysql
+    networks:
+      - default
+
+  imap:
+    build:
+      context: ./build
+      dockerfile: Dockerfile
+    image: imap
+    hostname: ${IMAP_HOST}
+    container_name: ${IMAP_HOST}
+    restart: unless-stopped
+    depends_on:
+      - mysql
+    links:
+      - mysql:${IMAP_DB_HOST}
+    external_links:
+      - syslog:syslog
+    ports:
+      - "25:25"
+      - "143:143"
+      - "587:587"
+      - "993:993"
+    expose:
+      - "4190"
+    volumes:
+      - ${GLOBAL_DIR_SERV}/imap/service:/service
+      - ${GLOBAL_DIR_MAIL}/vmail:/home/vmail/ 
+    environment:
+      - DISABLED_SERVICES=
+      - CRON_STRINGS=0 * * * * /usr/bin/doveadm quota recalc -A
+      - APP_HOST=${IMAP_APP_HOST}
+      - APP_RELAY=${IMAP_APP_RELAY}
+      - DB_HOST=${IMAP_DB_HOST}
+      - DB_NAME=${IMAP_DB_NAME}
+      - DB_USER=${IMAP_DB_USER}
+      - DB_PASSWORD=${IMAP_DB_PASS}
+      - TZ=${GLOBAL_TZ}
+    networks:
+      - syslog_default
+      - default
+
+  postfixadmin:
+    image: hardware/postfixadmin
+    container_name: postfixadmin
+    restart: unless-stopped
+    links:
+      - mysql:${IMAP_DB_HOST}
+    environment:
+      - DBHOST=${IMAP_DB_HOST}
+      - DBNAME=${IMAP_DB_NAME}
+      - DBUSER=${IMAP_DB_USER}
+      - DBPASS=${IMAP_DB_PASS}
+    labels:
+      - traefik.enable=true
+      - traefik.backend=postfixadmin
+      - traefik.port=8888
+      - traefik.docker.network=traefik_default
+      - traefik.frontend.rule=Host:${PFA_FRONTEND_URL}
+    expose:
+      - "8888"
+    networks:
+      - traefik_default
+      - default
+
+#  phpmyadmin:
+#    image: phpmyadmin/phpmyadmin
+#    restart: unless-stopped
+#    environment:
+#      - PMA_ARBITRARY=0
+#      - PMA_HOST=mysql
+#      #- PMA_USER=
+#      #- PMA_PASSWORD=
+#    ports:
+#      - "82:80"
+#    depends_on:
+#      - mysql
+#    networks:
+#      - default
+
+networks:
+  default:
+  traefik_default:
+    external: true
+  syslog_default:
+    external: true
+ 
+

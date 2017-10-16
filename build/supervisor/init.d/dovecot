@@ -1,0 +1,20 @@
+#!/bin/bash
+
+list=`ls /etc/dovecot/dovecot-*.conf` 
+for FI in $list ; do
+  echo "Modify <$FI> ..."
+  sed -i "s/{{DB_USER}}/$DB_USER/g"          $FI
+  sed -i "s/{{DB_HOST}}/$DB_HOST/g"          $FI
+  sed -i "s/{{DB_NAME}}/$DB_NAME/g"          $FI
+  sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g"  $FI
+done
+
+sed -i "s/{{APP_HOST}}/$APP_HOST/g" /etc/dovecot/local.conf
+
+mkdir /run/dovecot
+chmod -R +r /run/dovecot
+chmod -R +w /run/dovecot
+
+mkdir -p     /home/vmail
+chmod -R 777 /home/vmail
+

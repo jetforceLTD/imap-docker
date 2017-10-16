@@ -1,0 +1,9 @@
+[program:postfix]
+directory=/etc/postfix
+command=/etc/supervisor/proxy.d/postfix
+tdout_logfile=/dev/stdout
+stdout_logfile_maxbytes=0
+stderr_logfile=/dev/stderr
+stderr_logfile_maxbytes=0
+autorestart=true
+

@@ -1,0 +1,6 @@
+/data
+/docker-compose.yml
+/persistent
+/service
+/dc-service.yml
+/.env

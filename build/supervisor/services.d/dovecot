@@ -1,0 +1,8 @@
+[program:dovecot]
+command=/usr/sbin/dovecot -c /etc/dovecot/dovecot.conf -F
+stdout_logfile=/dev/stdout
+stdout_logfile_maxbytes=0
+stderr_logfile=/dev/stderr
+stderr_logfile_maxbytes=0
+autorestart=true
+
