@@ -33,8 +33,8 @@ RUN chgrp postfix /etc/postfix/sql/*.cf && \
 RUN postconf -e virtual_uid_maps=static:5000 && \
     postconf -e virtual_gid_maps=static:5000 && \
     postconf -e dovecot_destination_recipient_limit=1 && \
-    # specially for docker
     postconf -F '*/*/chroot = n'
+    # specially for docker
 
 RUN echo "dovecot   unix  -       n       n       -       -       pipe"  >> /etc/postfix/master.cf && \
     echo '    flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/dovecot/deliver -d ${recipient}' >> /etc/postfix/master.cf
