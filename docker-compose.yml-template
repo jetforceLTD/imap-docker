@@ -21,7 +21,7 @@ services:
     build:
       context: ./build
       dockerfile: Dockerfile
-    image: imap
+    image: unimock/imap-docker:2.2.32-0
     hostname: ${IMAP_HOST}
     container_name: ${IMAP_HOST}
     restart: unless-stopped
@@ -43,6 +43,7 @@ services:
       - ${GLOBAL_DIR_MAIL}/vmail:/home/vmail/ 
     environment:
       - DISABLED_SERVICES=
+      - DOVECOT_DEBUG=yes
       - CRON_STRINGS=0 * * * * /usr/bin/doveadm quota recalc -A
       - APP_HOST=${IMAP_APP_HOST}
       - APP_RELAY=${IMAP_APP_RELAY}

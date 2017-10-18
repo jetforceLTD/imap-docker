@@ -9,7 +9,8 @@ for FI in $list ; do
   sed -i "s/{{DB_PASSWORD}}/$DB_PASSWORD/g"  $FI
 done
 
-sed -i "s/{{APP_HOST}}/$APP_HOST/g" /etc/dovecot/local.conf
+sed -i "s/{{APP_HOST}}/$APP_HOST/g"           /etc/dovecot/local.conf
+sed -i "s/{{DOVECOT_DEBUG}}/$DOVECOT_DEBUG/g" /etc/dovecot/local.conf
 
 mkdir /run/dovecot
 chmod -R +r /run/dovecot
