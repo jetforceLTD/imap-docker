@@ -16,6 +16,17 @@ mkdir /run/dovecot
 chmod -R +r /run/dovecot
 chmod -R +w /run/dovecot
 
+FI=/home/vmail/sieve/before.sieve
+mkdir -p `dirname $FI`
+if [ ! -e $FI ] ; then
+cat << EOF > $FI
+    require "fileinto";
+    if header :contains "X-Spam-Flag" "YES" {
+      fileinto "Junk";
+    }  
+EOF
+fi
+
 mkdir -p     /home/vmail
 chmod -R 777 /home/vmail
 
