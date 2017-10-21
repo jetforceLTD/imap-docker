@@ -16,6 +16,10 @@ mkdir /run/dovecot
 chmod -R +r /run/dovecot
 chmod -R +w /run/dovecot
 
+mkdir -p /service/imap/conf.d/
+echo "Place your dovecot configuartion in </service/imap/conf.d/>"
+
+
 FI=/home/vmail/sieve/before.sieve
 mkdir -p `dirname $FI`
 if [ ! -e $FI ] ; then
