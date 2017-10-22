@@ -17,17 +17,13 @@ append_dot_mydomain = no
 readme_directory = no
 
 # TLS parameters
-#smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
-#smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
-#smtpd_use_tls=yes
-#smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
-#smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
-
-smtpd_tls_cert_file=/etc/ssl/dovecot/server.pem
-smtpd_tls_key_file=/etc/ssl/dovecot/server.key
-smtpd_use_tls=yes
-#smtpd_tls_auth_only = yes
-smtpd_tls_auth_only = no
+{{SW_TLS}}smtpd_use_tls=yes
+{{SW_TLS}}smtpd_tls_cert_file=/service/server.pem
+{{SW_TLS}}smtpd_tls_key_file=/service/server.key
+{{SW_TLS}}smtpd_tls_auth_only = no
+{{SW_TLS}}smtp_use_tls = yes
+{{SW_TLS}}smtp_tls_cert_file=/service/server.pem
+{{SW_TLS}}smtp_tls_key_file=/service/server.key
 
 #Enabling SMTP for authenticated users, and handing off authentication to Dovecot
 smtpd_sasl_type = dovecot
@@ -35,7 +31,7 @@ smtpd_sasl_path = private/auth
 smtpd_sasl_auth_enable = yes
 
 # Ueberprueft den SMTP-Client nach diesen Kriterien                              
-#smtpd_client_restrictions = check_client_access  texthash:/etc/postfix/only-access-client, permit_mynetworks, permit_sasl_authenticated, reject                                                                   
+#smtpd_client_restrictions = check_client_access  texthash:/service/client-access, permit_mynetworks, permit_sasl_authenticated, reject                                                                   
 
 smtpd_recipient_restrictions =
         permit_sasl_authenticated,

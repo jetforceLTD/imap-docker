@@ -4,8 +4,14 @@
 sed -i "s/{{APP_HOST}}/$APP_HOST/g"   /etc/postfix/main.cf
 sed -i "s/{{APP_RELAY}}/$APP_RELAY/g" /etc/postfix/main.cf
 
-if [ -e /etc/postfix/only-access-client ] ; then
+if [ -e /service/client-access ] ; then
   sed -i "s/#smtpd_client_restrictions =/smtpd_client_restrictions =/g" /etc/postfix/main.cf
+fi
+
+if [ -e /service/server.pem -a -e /service/server.key ] ; then
+  sed -i "s/{{SW_TLS}}//g"   /etc/postfix/main.cf
+else
+  sed -i "s/{{SW_TLS}}/#/g"  /etc/postfix/main.cf
 fi
 
 list=`ls /etc/postfix/sql/*.cf`
