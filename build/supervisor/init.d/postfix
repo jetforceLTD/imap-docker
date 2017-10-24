@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # update config templates
-sed -i "s/{{APP_HOST}}/$APP_HOST/g"   /etc/postfix/main.cf
-sed -i "s/{{APP_RELAY}}/$APP_RELAY/g" /etc/postfix/main.cf
+sed -i "s|{{APP_HOST}}|$APP_HOST|g"   /etc/postfix/main.cf
+sed -i "s|{{APP_RELAY}}|$APP_RELAY|g" /etc/postfix/main.cf
+sed -i "s|{{APP_MYNET}}|$APP_MYNET|g" /etc/postfix/main.cf
 
 if [ -e /service/client-access ] ; then
   sed -i "s/#smtpd_client_restrictions =/smtpd_client_restrictions =/g" /etc/postfix/main.cf
