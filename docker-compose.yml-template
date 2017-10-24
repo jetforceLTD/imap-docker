@@ -21,7 +21,7 @@ services:
     build:
       context: ./build
       dockerfile: Dockerfile
-    image: unimock/imap-docker:0.0.1
+    image: unimock/imap-docker:0.1.0
     hostname: ${IMAP_HOST}
     container_name: ${IMAP_HOST}
     restart: unless-stopped
@@ -47,6 +47,7 @@ services:
       - CRON_STRINGS=0 * * * * /usr/bin/doveadm quota recalc -A
       - APP_HOST=${IMAP_APP_HOST}
       - APP_RELAY=${IMAP_APP_RELAY}
+      - APP_MYNET=${IMAP_APP_MYNET}
       - DB_HOST=${IMAP_DB_HOST}
       - DB_NAME=${IMAP_DB_NAME}
       - DB_USER=${IMAP_DB_USER}
