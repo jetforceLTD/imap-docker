@@ -14,14 +14,10 @@ for FI in $list ; do
 done
 
 
-#if [ -e /service/server.pem -a -e /service/server.key ] ; then
-#  sed -i "s/{{SSL}}/yes/g"           /etc/dovecot/local.conf
-#  ln -sf /service/server.pem /etc/ssl/dovecot/server.pem
-#  ln -sf /service/server.key /etc/ssl/dovecot/server.key
-#else
-#  sed -i "s/{{SSL}}/no/g"           /etc/dovecot/local.conf
-#  rm -f /etc/ssl/dovecot/server.key /etc/ssl/dovecot/server.pem
-#fi
+if [ -e /service/server.pem -a -e /service/server.key ] ; then
+  cp -v /service/server.pem /etc/ssl/dovecot/server.pem
+  cp -v /service/server.key /etc/ssl/dovecot/server.key
+fi
 
 
 
