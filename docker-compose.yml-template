@@ -32,12 +32,11 @@ services:
     external_links:
       - syslog:syslog
     ports:
-      - "25:25"
-      - "143:143"
-      - "587:587"
-      - "993:993"
+      - "${IMAP_PORT_SMTP}:25"
+      - "${IMAP_PORT_IMAP}:143"
+      - "${IMAP_PORT_SUBM}:587"
     expose:
-      - "4190"
+      - "${IMAP_PORT_SIEVE}"
     volumes:
       - ${GLOBAL_DIR_SERV}/imap/service:/service
       - ${GLOBAL_DIR_MAIL}/vmail:/home/vmail/ 

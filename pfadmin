@@ -8,7 +8,7 @@ _help()
   echo " usage: $ICH  add|help|postfixadmin-commands ....>"
   echo ""
   echo "   examples:"
-  echo "     $ICH wait # wait until postfixadmin contianer is initialized"
+  echo "     $ICH wait # wait until postfixadmin container will be initialized"
   echo ""
   echo "     $ICH add domain domain.local"
   echo "     $ICH add admin  ich@domain.local pass123"
@@ -36,7 +36,7 @@ if [ "$1" = "" ] ; then
 fi
 
 if [ "$1" = "wait" ] ; then
-  echo -n "wait until postfixadmin contianer is initialized "
+  echo -n "wait until postfixadmin container will be initialized "
   while  ! curl --insecure https://${PFA_FRONTEND_FQDN}:${GLOBAL_FRONTEND_PORT}/setup.php 2>/dev/null | grep "Change setup password" >/dev/null ; do echo -n "." ; sleep 1 ; done
   exit 0
 fi
