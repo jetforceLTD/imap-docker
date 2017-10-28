@@ -73,7 +73,7 @@ services:
       - traefik.backend=postfixadmin
       - traefik.port=8888
       - traefik.docker.network=traefik_default
-      - traefik.frontend.rule=Host:${PFA_FRONTEND_URL}
+      - traefik.frontend.rule=Host:${PFA_FRONTEND_FQDN}
     expose:
       - "8888"
     networks:
