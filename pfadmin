@@ -1,0 +1,64 @@
+#!/bin/bash
+
+. .env
+
+_help()
+{
+  ICH=./`basename $0`
+  echo " usage: $ICH  add|help|postfixadmin-commands ....>"
+  echo ""
+  echo "   examples:"
+  echo "     $ICH wait # wait until postfixadmin contianer is initialized"
+  echo ""
+  echo "     $ICH add domain domain.local"
+  echo "     $ICH add admin  ich@domain.local pass123"
+  echo "     $ICH add sadmin ich@domain.local pass123"
+  echo "     $ICH add mailbox du@domain.local pass123 \"Real Name\""
+  echo ""
+  echo "     $ICH help                    # show native postfixadmin help"
+  echo "     $ICH <postfixadmin-commands> # native postfixadmin commands"
+  echo ""
+}
+
+_docker()
+{
+  if [ -e ./dc-service.yml ] ; then
+    dc docker exec -it postfixadmin  php -q /postfixadmin/scripts/postfixadmin-cli.php $*
+  else
+    docker exec -it postfixadmin  php -q /postfixadmin/scripts/postfixadmin-cli.php $*
+  fi
+  return
+}
+
+if [ "$1" = "" ] ; then
+  _help
+  exit 0
+fi
+
+if [ "$1" = "wait" ] ; then
+  echo -n "wait until postfixadmin contianer is initialized "
+  while  ! curl --insecure https://${PFA_FRONTEND_FQDN}:${GLOBAL_FRONTEND_PORT}/setup.php 2>/dev/null | grep "Change setup password" >/dev/null ; do echo -n "." ; sleep 1 ; done
+  exit 0
+fi
+
+if [ "$1" = "add" ] ; then
+  shift
+  case $1 in
+  mailbox)
+    _docker mailbox add "${2}" --password "${3}" --password2 "${3}" --name "${4}" --active 1 --welcome-mail 0 --quota 0
+    ;;
+  domain)
+    _docker domain  add "${2}"  --active 1 --default-aliases 0
+    ;;
+  sadmin)
+    _docker admin   add "${2}" --password "${3}" --password2 "${3}"  --superadmin 1 --active 1
+    ;;
+  admin)
+    _docker admin   add "${2}" --password "${3}" --password2 "${3}"  --superadmin 0 --active 1
+    ;;
+  esac
+else
+  _docker $*
+fi
+exit 0
+  
