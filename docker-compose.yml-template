@@ -69,14 +69,13 @@ services:
       - DBPASS=${IMAP_DB_PASS}
     labels:
       - traefik.enable=true
-      - traefik.backend=postfixadmin
       - traefik.port=8888
-      - traefik.docker.network=traefik_default
+      - traefik.docker.network=traefik_groupware
       - traefik.frontend.rule=Host:${PFA_FRONTEND_FQDN}
     expose:
       - "8888"
     networks:
-      - traefik_default
+      - traefik_groupware
       - default
 
 #  phpmyadmin:
@@ -96,7 +95,7 @@ services:
 
 networks:
   default:
-  traefik_default:
+  traefik_groupware:
     external: true
   syslog_default:
     external: true
