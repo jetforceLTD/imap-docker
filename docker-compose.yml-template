@@ -67,6 +67,9 @@ services:
       - DBNAME=${IMAP_DB_NAME}
       - DBUSER=${IMAP_DB_USER}
       - DBPASS=${IMAP_DB_PASS}
+      #- PASSVAL_MIN_LEN=5
+      #- PASSVAL_MIN_CHAR=3
+      #- PASSVAL_MIN_DIGIT=2
     labels:
       - traefik.enable=true
       - traefik.port=8888
