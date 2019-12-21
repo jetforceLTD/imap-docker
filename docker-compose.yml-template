@@ -57,7 +57,7 @@ services:
       - default
 
   postfixadmin:
-    image: hardware/postfixadmin
+    image: unimock/postfixadmin:0.0.0
     container_name: postfixadmin
     restart: unless-stopped
     links:
