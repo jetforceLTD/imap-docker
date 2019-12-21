@@ -1,14 +1,14 @@
-FROM alpine:edge
+FROM alpine:3.10
 MAINTAINER Uni Mock unimock@gate-m.de
 
 RUN addgroup -S -g 5000 vmail
 RUN adduser -S -u 5000 -g vmail vmail
 
-RUN apk add --update bash postfix postfix-mysql openssl rsyslog mysql-client supervisor dcron rsync tzdata
+RUN apk add --update bash postfix postfix-mysql openssl rsyslog mysql-client supervisor dcron rsync tzdata dovecot dovecot-mysql dovecot-pigeonhole-plugin rspamd-client
 
-RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
-    && apk add --no-cache \
-    dovecot dovecot-mysql dovecot-pigeonhole-plugin dovecot-pigeonhole-plugin-extdata 
+#RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+#    && apk add --no-cache \
+#    dovecot dovecot-mysql dovecot-pigeonhole-plugin dovecot-pigeonhole-plugin-extdata 
 
 RUN rm -rf /var/cache/apk/* /tmp/* /var/tmp/*
 RUN cp -f /usr/share/zoneinfo/Europe/Berlin /etc/localtime
