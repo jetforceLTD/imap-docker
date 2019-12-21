@@ -21,7 +21,7 @@ services:
     build:
       context: ./build
       dockerfile: Dockerfile
-    image: unimock/imap-docker:0.1.1
+    image: unimock/imap-docker:0.2.0
     hostname: ${IMAP_HOST}
     container_name: ${IMAP_HOST}
     restart: unless-stopped

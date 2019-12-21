@@ -37,7 +37,7 @@ RUN postconf -e virtual_uid_maps=static:5000 && \
     # specially for docker
 
 RUN echo "dovecot   unix  -       n       n       -       -       pipe"  >> /etc/postfix/master.cf && \
-    echo '    flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/dovecot/deliver -d ${recipient}' >> /etc/postfix/master.cf
+    echo '    flags=DRhu user=vmail:vmail argv=/usr/libexec/dovecot/deliver  -d ${recipient}' >> /etc/postfix/master.cf
 
 RUN sed -i 's/#submission/submission/g' /etc/postfix/master.cf
 
